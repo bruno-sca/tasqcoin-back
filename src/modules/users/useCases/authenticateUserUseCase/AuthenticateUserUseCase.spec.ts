@@ -33,7 +33,7 @@ describe('Authenticate user use case', () => {
       name: 'test name',
     };
 
-    await createUserUseCase.execute(user);
+    await createUserUseCase.execute({ ...user, confirmPassword: 'password' });
   });
 
   it('Should be able to authenticate an user', async () => {

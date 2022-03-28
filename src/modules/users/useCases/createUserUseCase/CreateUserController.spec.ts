@@ -22,6 +22,7 @@ describe('Create User Controller', () => {
     const response = await request(app).post('/users').send({
       name: 'Test',
       password: 'test',
+      confirmPassword: 'test',
       email: 'test@email.com',
     });
 
@@ -32,6 +33,7 @@ describe('Create User Controller', () => {
     const response = await request(app).post('/users').send({
       name: 'Test',
       password: 'test',
+      confirmPassword: 'test',
       email: 'test@email.com',
     });
 

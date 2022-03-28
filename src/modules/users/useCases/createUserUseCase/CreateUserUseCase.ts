@@ -13,7 +13,17 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ email, name, password }: ICreateUserDTO): Promise<User> {
+  async execute({
+    email,
+    name,
+    password,
+    confirmPassword,
+  }: ICreateUserDTO & {
+    confirmPassword: string;
+  }): Promise<User> {
+    if (password !== confirmPassword)
+      throw new AppError('Password and Confirm Password fields must be equal!');
+
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) throw new AppError('Users email already in use!');
