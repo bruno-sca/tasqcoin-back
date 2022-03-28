@@ -16,6 +16,7 @@ describe('Create User', () => {
     const user = await createUserUseCase.execute({
       name: 'Test',
       password: 'test',
+      confirmPassword: 'test',
       email: 'test@email.com',
     });
 
@@ -31,8 +32,22 @@ describe('Create User', () => {
       createUserUseCase.execute({
         name: 'Test',
         password: 'test',
+        confirmPassword: 'test',
         email: 'test@email.com',
       })
     ).rejects.toEqual(new AppError('Users email already in use!'));
+  });
+
+  it('Should not be able to create a new user with unequal password and confirmPasswordFields', async () => {
+    await expect(
+      createUserUseCase.execute({
+        name: 'Test',
+        password: 'test',
+        confirmPassword: 'wrong',
+        email: 'test@email.com',
+      })
+    ).rejects.toEqual(
+      new AppError('Password and Confirm Password fields must be equal!')
+    );
   });
 });
