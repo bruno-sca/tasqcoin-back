@@ -43,6 +43,14 @@ class DayjsDateProvider implements IDateProvider {
   dateNow(): Date {
     return dayjs().toDate();
   }
+
+  startOfMonth(): Date {
+    return dayjs().startOf('month').toDate();
+  }
+
+  endOfMonth(): Date {
+    return dayjs().endOf('month').toDate();
+  }
 }
 
 export { DayjsDateProvider };

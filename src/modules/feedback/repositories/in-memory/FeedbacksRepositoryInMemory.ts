@@ -39,6 +39,21 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
       totalPages: Math.ceil(user_feedbacks.length / pageSize),
     };
   }
+
+  async getUserBalance(
+    user_id: string,
+    start_date: Date,
+    end_date: Date
+  ): Promise<number> {
+    return this.feedbacks
+      .filter(
+        (feedback) =>
+          feedback.user_to_id === user_id &&
+          feedback.created_at.getTime() > start_date.getTime() &&
+          feedback.created_at.getTime() < end_date.getTime()
+      )
+      .reduce((total, currentFeedback) => total + currentFeedback.amount, 0);
+  }
 }
 
 export { FeedbacksRepositoryInMemory };
