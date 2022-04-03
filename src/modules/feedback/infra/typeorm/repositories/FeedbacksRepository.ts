@@ -40,6 +40,24 @@ class FeedbacksRepository implements IFeedbacksRepository {
 
     return { feedbacks, totalPages: Math.ceil(totalEntries / options.take) };
   }
+
+  async getUserBalance(
+    user_id: string,
+    start_date: Date,
+    end_date: Date
+  ): Promise<number> {
+    const [{ sum }] = await this.repository
+      .createQueryBuilder('f')
+      .select('SUM(f.amount)', 'sum')
+      .andWhere('f.user_to_id = :id', { id: user_id })
+      .andWhere('f.created_at BETWEEN :start AND :end', {
+        start: start_date,
+        end: end_date,
+      })
+      .execute();
+
+    return Number(sum);
+  }
 }
 
 export { FeedbacksRepository };

@@ -7,6 +7,8 @@ interface IDateProvider {
   addDays(days: number): Date;
   addMinutes(minutes: number): Date;
   addSeconds(seconds: number): Date;
+  startOfMonth(): Date;
+  endOfMonth(): Date;
 }
 
 export { IDateProvider };
