@@ -1,6 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
 import { ICreateFeedbackDTO } from '@modules/feedback/dto/ICreateFeedback';
+import { IRankingEntrieDTO } from '@modules/feedback/dto/IRankingEntrie';
 import { IFeedbacksRepository } from '@modules/feedback/repositories/IFeedbacksRepository';
 import { paginationOptionsToQueryOptions } from '@utils/pagination';
 
@@ -57,6 +58,17 @@ class FeedbacksRepository implements IFeedbacksRepository {
       .execute();
 
     return Number(sum);
+  }
+
+  async getUsersRanking(
+    start_date: Date,
+    end_date: Date
+  ): Promise<IRankingEntrieDTO[]> {
+    const rank = await this.repository.query(
+      `select f.user_to_id as user_id, u.name as user_name, sum(f.amount) as balance from feedbacks as f join users as u on u.id = f.user_to_id where f.created_at BETWEEN '${start_date.toISOString()}' AND '${end_date.toISOString()}' group by 1, 2 order by balance DESC`
+    );
+
+    return rank;
   }
 }
 

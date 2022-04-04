@@ -1,4 +1,5 @@
 import { ICreateFeedbackDTO } from '../dto/ICreateFeedback';
+import { IRankingEntrieDTO } from '../dto/IRankingEntrie';
 import { Feedback } from '../infra/typeorm/entities/Feedback';
 
 interface IFeedbacksRepository {
@@ -12,6 +13,10 @@ interface IFeedbacksRepository {
     start_date: Date,
     end_date: Date
   ): Promise<number>;
+  getUsersRanking(
+    start_date: Date,
+    end_date: Date
+  ): Promise<IRankingEntrieDTO[]>;
 }
 
 export { IFeedbacksRepository };

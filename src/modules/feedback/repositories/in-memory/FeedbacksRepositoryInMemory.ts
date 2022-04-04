@@ -1,4 +1,5 @@
 import { ICreateFeedbackDTO } from '@modules/feedback/dto/ICreateFeedback';
+import { IRankingEntrieDTO } from '@modules/feedback/dto/IRankingEntrie';
 import { Feedback } from '@modules/feedback/infra/typeorm/entities/Feedback';
 
 import { IFeedbacksRepository } from '../IFeedbacksRepository';
@@ -53,6 +54,35 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
           feedback.created_at.getTime() < end_date.getTime()
       )
       .reduce((total, currentFeedback) => total + currentFeedback.amount, 0);
+  }
+
+  async getUsersRanking(
+    start_date: Date,
+    end_date: Date
+  ): Promise<IRankingEntrieDTO[]> {
+    return Object.values(
+      this.feedbacks
+        .filter(
+          (feedback) =>
+            feedback.created_at.getTime() > start_date.getTime() &&
+            feedback.created_at.getTime() < end_date.getTime()
+        )
+        .reduce<Record<string, IRankingEntrieDTO>>((rankingEntries, fb) => {
+          const user_id = fb.user_to_id;
+          if (rankingEntries[user_id]) {
+            const newRanking = { ...rankingEntries };
+            newRanking[user_id].balance += fb.amount;
+            return newRanking;
+          }
+          return {
+            ...rankingEntries,
+            [user_id]: {
+              user_id,
+              balance: fb.amount,
+            },
+          };
+        }, {})
+    ).sort((fbA, fbB) => fbB.balance - fbA.balance);
   }
 }
 
