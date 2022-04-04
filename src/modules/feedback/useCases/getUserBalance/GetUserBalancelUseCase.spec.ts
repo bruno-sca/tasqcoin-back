@@ -4,7 +4,6 @@ import { UsersRepositoryInMemory } from '@modules/users/repositories/in-memory/U
 import { DayjsDateProvider } from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 import { AppError } from '@shared/errors/AppError';
 
-import { ListUserFeedbackUseCase } from '../listUserFeedback/ListUserFeedbackUseCase';
 import { GetUserBalanceUseCase } from './GetUserBalanceUseCase';
 
 let feedbacksRepositoryInMemory: FeedbacksRepositoryInMemory;

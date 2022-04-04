@@ -11,7 +11,6 @@ let connection: Connection;
 let userFrom: User;
 let userFromToken: string;
 let userTo: User;
-let userToToken: string;
 
 describe('Get User Balance Controller', () => {
   beforeAll(async () => {
