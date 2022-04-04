@@ -45,6 +45,11 @@ describe('Get User Balance Controller', () => {
     );
   });
 
+  afterAll(async () => {
+    await connection.dropDatabase();
+    await connection.close();
+  });
+
   it('Should be able to get user balance', async () => {
     const response = await request(app)
       .get(`/feedbacks/balance/${userTo.id}`)

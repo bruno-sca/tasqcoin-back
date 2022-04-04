@@ -56,6 +56,11 @@ describe('List User Feedback Controller', () => {
     });
   });
 
+  // afterAll(async () => {
+  //   await connection.dropDatabase();
+  //   await connection.close();
+  // });
+
   it('Should be able to list all feedbacks(first page)', async () => {
     const response = await request(app)
       .get('/feedbacks')
