@@ -16,7 +16,7 @@ export async function createUser(
 
   await connection.query(
     `INSERT INTO USERS(id, name, email, password, is_admin, created_at, balance)
-      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', 'false', 'now()', '1000')
+      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', 'false', 'now()', '10000')
     `
   );
 
