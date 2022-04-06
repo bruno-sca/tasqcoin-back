@@ -6,7 +6,8 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 
 export async function createUser(
   userDTO: ICreateUserDTO,
-  connection: Connection
+  connection: Connection,
+  isAdmin = false
 ): Promise<User> {
   const password_hash = await hash(userDTO.password, 8);
 
@@ -16,7 +17,7 @@ export async function createUser(
 
   await connection.query(
     `INSERT INTO USERS(id, name, email, password, is_admin, created_at, balance)
-      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', 'false', 'now()', '10000')
+      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', '${isAdmin}', 'now()', '10000')
     `
   );
 

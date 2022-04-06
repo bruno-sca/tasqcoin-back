@@ -70,6 +70,15 @@ class FeedbacksRepository implements IFeedbacksRepository {
 
     return rank;
   }
+
+  async findById(id: string): Promise<Feedback> {
+    const feedback = await this.repository.findOne(id);
+    return feedback;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }
 
 export { FeedbacksRepository };

@@ -21,16 +21,16 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
     user_id: string,
     paginationOptions?: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
-    const pageSize = paginationOptions.pageSize || 12;
+    const pageSize = paginationOptions?.pageSize || 12;
     const user_feedbacks = [...this.feedbacks].filter(
       ({ user_to_id, user_from_id }) =>
         [user_from_id, user_to_id].includes(user_id)
     );
 
-    const start = ((paginationOptions.page || 1) - 1) * pageSize;
+    const start = ((paginationOptions?.page || 1) - 1) * pageSize;
     const end = Math.min(
       this.feedbacks.length,
-      (paginationOptions.page || 1) * pageSize
+      (paginationOptions?.page || 1) * pageSize
     );
 
     const feedbacks = user_feedbacks.slice(start, end);
@@ -83,6 +83,15 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
           };
         }, {})
     ).sort((fbA, fbB) => fbB.balance - fbA.balance);
+  }
+
+  async findById(id: string): Promise<Feedback> {
+    return this.feedbacks.find((fb) => id === fb.id);
+  }
+
+  async deleteById(id: string): Promise<void> {
+    const a = this.feedbacks.findIndex((fb) => id === fb.id);
+    this.feedbacks.splice(a, 1);
   }
 }
 
