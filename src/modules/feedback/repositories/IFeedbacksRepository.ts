@@ -4,6 +4,8 @@ import { Feedback } from '../infra/typeorm/entities/Feedback';
 
 interface IFeedbacksRepository {
   create(data: ICreateFeedbackDTO): Promise<Feedback>;
+  findById(id: string): Promise<Feedback>;
+  deleteById(id: string): Promise<void>;
   listByUserId(
     user_id: string,
     paginationOptions?: PaginationOptions
