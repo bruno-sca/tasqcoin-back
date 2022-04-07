@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 
 import 'dotenv/config';
@@ -14,6 +15,8 @@ createConnection();
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use(router);
 
