@@ -50,7 +50,7 @@ describe('Create Feedback Controller', () => {
         Authorization: `Bearer ${userFromToken}`,
       })
       .send({
-        amount: 100,
+        amount: 9000,
         description: 'description',
         user_to_id: userTo.id,
       });
