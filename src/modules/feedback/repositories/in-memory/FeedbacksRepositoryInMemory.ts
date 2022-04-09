@@ -22,10 +22,14 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
     paginationOptions?: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
     const pageSize = paginationOptions?.pageSize || 12;
-    const user_feedbacks = [...this.feedbacks].filter(
-      ({ user_to_id, user_from_id }) =>
+    const user_feedbacks = [...this.feedbacks]
+      .filter(({ user_to_id, user_from_id }) =>
         [user_from_id, user_to_id].includes(user_id)
-    );
+      )
+      .sort(
+        ({ created_at: aCreatedAt }, { created_at: bCreatedAt }) =>
+          aCreatedAt.getTime() - bCreatedAt.getTime()
+      );
 
     const start = ((paginationOptions?.page || 1) - 1) * pageSize;
     const end = Math.min(

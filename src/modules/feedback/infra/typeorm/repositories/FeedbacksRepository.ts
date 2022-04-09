@@ -36,6 +36,9 @@ class FeedbacksRepository implements IFeedbacksRepository {
 
     const [feedbacks, totalEntries] = await this.repository.findAndCount({
       where: [{ user_from_id: user_id }, { user_to_id: user_id }],
+      order: {
+        created_at: 'DESC',
+      },
       ...options,
     });
 
