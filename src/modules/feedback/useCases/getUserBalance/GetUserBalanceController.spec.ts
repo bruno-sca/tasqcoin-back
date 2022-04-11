@@ -57,7 +57,7 @@ describe('Get User Balance Controller', () => {
       });
 
     expect(response.status).toBe(200);
-    expect(response.body).toBe(1200);
+    expect(response.body).toMatchObject({ balance: 1200 });
   });
 
   it('Should not be able to get balance from a inexistent user', async () => {

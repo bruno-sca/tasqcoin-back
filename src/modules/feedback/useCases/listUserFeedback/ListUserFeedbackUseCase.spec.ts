@@ -11,7 +11,7 @@ let usersRepositoryInMemory: UsersRepositoryInMemory;
 let listUserFeedbackUseCase: ListUserFeedbackUseCase;
 
 let userFrom: User;
-const feedbacksTest: Feedback[] = [];
+const feedbacksTest: (Feedback & { type: 'recieved' | 'sent' })[] = [];
 
 describe('ListUserFeedbackUseCase', () => {
   beforeAll(async () => {
@@ -37,7 +37,7 @@ describe('ListUserFeedbackUseCase', () => {
             user_from_id: userFrom.id,
             user_to_id: 'to_id',
           })
-          .then((fb) => feedbacksTest.push(fb));
+          .then((fb) => feedbacksTest.push({ ...fb, type: 'recieved' }));
       })
     );
 
@@ -48,7 +48,7 @@ describe('ListUserFeedbackUseCase', () => {
         user_from_id: 'to_id',
         user_to_id: userFrom.id,
       })
-      .then((fb) => feedbacksTest.push(fb));
+      .then((fb) => feedbacksTest.push({ ...fb, type: 'recieved' }));
   });
 
   it('Should be able to list all users feedbacks', async () => {

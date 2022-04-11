@@ -5,6 +5,11 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
 import { AppError } from '@shared/errors/AppError';
 
+interface IResponse {
+  balance: number;
+  coins: number;
+}
+
 @injectable()
 class GetUserBalanceUseCase {
   constructor(
@@ -16,7 +21,7 @@ class GetUserBalanceUseCase {
     private dateProvider: IDateProvider
   ) {}
 
-  async execute(user_id: string): Promise<number> {
+  async execute(user_id: string): Promise<IResponse> {
     const user = await this.usersRepository.findById(user_id).catch(() => {
       throw new AppError('User not found!');
     });
@@ -28,7 +33,7 @@ class GetUserBalanceUseCase {
       this.dateProvider.startOfMonth(),
       this.dateProvider.endOfMonth()
     );
-    return balance;
+    return { balance, coins: user.balance };
   }
 }
 

@@ -44,8 +44,8 @@ class ListUserFeedbackUseCase {
 
     return {
       feedbacks: feedbacks.map(({ user_from, ...rest }) => ({
-        type: user.id === user_from.id ? 'sent' : 'recieved',
-        user_from,
+        type: user.id === user_from?.id ? 'sent' : 'recieved',
+        ...(user_from && { user_from }),
         ...rest,
       })),
       totalPages,

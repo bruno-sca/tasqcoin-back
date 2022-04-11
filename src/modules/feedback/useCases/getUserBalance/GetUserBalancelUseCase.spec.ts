@@ -45,7 +45,7 @@ describe('GetUserBalanceUseCase', () => {
   it('Should be able to get user balance', async () => {
     const balance = await getUserBalanceUseCase.execute(userTo.id);
 
-    expect(balance).toBe(1200);
+    expect(balance).toMatchObject({ balance: 1200 });
   });
 
   it('Should not be able to get balance from a inexistent user', async () => {
