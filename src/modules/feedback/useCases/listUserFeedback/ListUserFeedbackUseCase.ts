@@ -28,7 +28,7 @@ class ListUserFeedbackUseCase {
   async execute({
     user_id,
     page = 1,
-    pageSize = 12,
+    pageSize = 8,
   }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findById(user_id).catch(() => {
       throw new AppError('User not found!');
