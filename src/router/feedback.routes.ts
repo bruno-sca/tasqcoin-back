@@ -26,7 +26,7 @@ feedbackRoutes.delete(
 );
 
 feedbackRoutes.get(
-  '/balance/:id',
+  '/balance',
   ensureAuthenticated,
   getUserBalanceController.handle
 );

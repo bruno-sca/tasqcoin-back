@@ -5,7 +5,7 @@ import { GetUserBalanceUseCase } from './GetUserBalanceUseCase';
 
 class GetUserBalanceController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const id = String(request.query.id || request.user.id);
 
     const getUserBalanceUseCase = container.resolve(GetUserBalanceUseCase);
 

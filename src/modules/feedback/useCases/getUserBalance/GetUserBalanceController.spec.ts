@@ -51,7 +51,10 @@ describe('Get User Balance Controller', () => {
 
   it('Should be able to get user balance', async () => {
     const response = await request(app)
-      .get(`/feedbacks/balance/${userTo.id}`)
+      .get(`/feedbacks/balance`)
+      .query({
+        id: userTo.id,
+      })
       .set({
         Authorization: `Bearer ${userFromToken}`,
       });
@@ -62,7 +65,10 @@ describe('Get User Balance Controller', () => {
 
   it('Should not be able to get balance from a inexistent user', async () => {
     const response = await request(app)
-      .get(`/feedbacks/balance/fakeid`)
+      .get(`/feedbacks/balance`)
+      .query({
+        id: 'fakeid',
+      })
       .set({
         Authorization: `Bearer ${userFromToken}`,
       });
