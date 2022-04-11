@@ -19,9 +19,9 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
 
   async listByUserId(
     user_id: string,
-    paginationOptions?: PaginationOptions
+    paginationOptions: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
-    const pageSize = paginationOptions?.pageSize || 12;
+    const { pageSize } = paginationOptions;
     const user_feedbacks = [...this.feedbacks]
       .filter(({ user_to_id, user_from_id }) =>
         [user_from_id, user_to_id].includes(user_id)

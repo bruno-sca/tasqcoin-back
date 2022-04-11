@@ -26,13 +26,7 @@ class FeedbacksRepository implements IFeedbacksRepository {
     user_id: string,
     paginationOptions?: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
-    const defaultOptions = {
-      pageSize: 12,
-    };
-    const options = paginationOptionsToQueryOptions({
-      ...defaultOptions,
-      ...paginationOptions,
-    });
+    const options = paginationOptionsToQueryOptions(paginationOptions);
 
     const [feedbacks, totalEntries] = await this.repository.findAndCount({
       where: [{ user_from_id: user_id }, { user_to_id: user_id }],
