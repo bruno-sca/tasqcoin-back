@@ -33,6 +33,7 @@ class FeedbacksRepository implements IFeedbacksRepository {
       order: {
         created_at: 'DESC',
       },
+      relations: ['user_to', 'user_from'],
       ...options,
     });
 
