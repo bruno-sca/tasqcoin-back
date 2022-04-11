@@ -12,7 +12,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  feedbacks: Feedback[];
+  feedbacks: (Feedback & { type: 'recieved' | 'sent' })[];
   totalPages: number;
 }
 
@@ -36,12 +36,20 @@ class ListUserFeedbackUseCase {
 
     if (!user) throw new AppError('User not found!');
 
-    const response = await this.feedbackRepository.listByUserId(user_id, {
-      page,
-      pageSize,
-    });
+    const { feedbacks, totalPages } =
+      await this.feedbackRepository.listByUserId(user_id, {
+        page,
+        pageSize,
+      });
 
-    return response;
+    return {
+      feedbacks: feedbacks.map(({ user_from, ...rest }) => ({
+        type: user.id === user_from.id ? 'sent' : 'recieved',
+        user_from,
+        ...rest,
+      })),
+      totalPages,
+    };
   }
 }
 

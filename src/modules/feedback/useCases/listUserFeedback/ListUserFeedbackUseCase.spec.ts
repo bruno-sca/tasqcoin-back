@@ -29,7 +29,7 @@ describe('ListUserFeedbackUseCase', () => {
     });
 
     await Promise.all(
-      Array.from(Array(12).keys()).map(async () => {
+      Array.from(Array(8).keys()).map(async () => {
         await feedbacksRepositoryInMemory
           .create({
             amount: 100,
@@ -57,7 +57,7 @@ describe('ListUserFeedbackUseCase', () => {
     });
 
     expect(totalPages).toBe(2);
-    expect(feedbacks).toEqual(feedbacksTest.slice(0, 12));
+    expect(feedbacks).toEqual(feedbacksTest.slice(0, 8));
   });
 
   it('Should be able to paginate all users feedbacks', async () => {
@@ -67,7 +67,7 @@ describe('ListUserFeedbackUseCase', () => {
     });
 
     expect(totalPages).toBe(2);
-    expect(feedbacks).toEqual(feedbacksTest.slice(12));
+    expect(feedbacks).toEqual(feedbacksTest.slice(8));
   });
 
   it('Should be able to change users feedbacks page size', async () => {
@@ -76,7 +76,7 @@ describe('ListUserFeedbackUseCase', () => {
       pageSize: 1,
     });
 
-    expect(totalPages).toBe(13);
+    expect(totalPages).toBe(9);
     expect(feedbacks).toEqual(feedbacksTest.slice(0, 1));
   });
 

@@ -70,7 +70,7 @@ describe('List User Feedback Controller', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.totalPages).toBe(2);
-    expect(response.body.feedbacks.length).toBe(12);
+    expect(response.body.feedbacks.length).toBe(8);
   });
 
   it('Should be able to list all feedbacks (id provided via params)', async () => {
@@ -83,7 +83,7 @@ describe('List User Feedback Controller', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.totalPages).toBe(2);
-    expect(response.body.feedbacks.length).toBe(12);
+    expect(response.body.feedbacks.length).toBe(8);
   });
 
   it('Should be able to paginate all users feedbacks', async () => {
@@ -96,7 +96,7 @@ describe('List User Feedback Controller', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.totalPages).toBe(2);
-    expect(response.body.feedbacks.length).toBe(1);
+    expect(response.body.feedbacks.length).toBe(5);
   });
 
   it('Should be able to change users feedbacks page size', async () => {
