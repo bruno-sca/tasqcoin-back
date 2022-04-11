@@ -44,7 +44,8 @@ describe('GetUsersRankingUseCase', () => {
     await deleteFeedbackUseCase.execute(feedbackId);
     userFrom = await usersRepositoryInMemory.findById(userFrom.id);
     const userFromFeedbacks = await feedbacksRepositoryInMemory.listByUserId(
-      userFrom.id
+      userFrom.id,
+      { pageSize: 8 }
     );
 
     expect(userFromFeedbacks.feedbacks.length).toBe(0);
