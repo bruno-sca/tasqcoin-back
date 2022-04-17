@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, ILike, Repository } from 'typeorm';
 
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -28,6 +28,14 @@ class UsersRepository implements IUsersRepository {
   async findByEmail(email: string): Promise<User> {
     const user = await this.repository.findOne({ email });
     return user;
+  }
+
+  async searchUsers(name: string): Promise<User[]> {
+    const users = await this.repository.find({
+      where: { name: ILike(`%${name}%`) },
+      take: 5,
+    });
+    return users;
   }
 
   async update(user: User) {

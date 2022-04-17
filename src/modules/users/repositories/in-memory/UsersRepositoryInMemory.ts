@@ -24,6 +24,10 @@ class UsersRepositoryInMemory implements IUsersRepository {
     return this.users.find((user) => user.email === email);
   }
 
+  async searchUsers(name: string): Promise<User[]> {
+    return this.users.filter((user) => user.name.includes(name)).slice(0, 5);
+  }
+
   async update(user: User) {
     const oldDataIdx = this.users.findIndex((u) => u.id === user.id);
 
