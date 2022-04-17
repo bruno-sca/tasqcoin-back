@@ -27,7 +27,7 @@ class CreateFeedbackUseCase {
     user_from_id,
     user_to_id,
   }: IRequest): Promise<Feedback> {
-    const user_from = await await this.usersRepository.findById(user_from_id);
+    const user_from = await this.usersRepository.findById(user_from_id);
 
     if (!user_from) throw new AppError('User not found!');
 

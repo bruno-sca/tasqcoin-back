@@ -12,7 +12,9 @@ class GetUserInfoUseCase {
   ) {}
 
   async execute(id: string): Promise<User> {
-    const user = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id).catch(() => {
+      throw new AppError('User not found!');
+    });
 
     if (!user) throw new AppError('User not found!');
 
