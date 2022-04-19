@@ -39,6 +39,16 @@ describe('SearchUsersUseCase', () => {
     expect(resultUsers).not.toContain(user2);
   });
 
+  it('Should not be able to search user1 given its id', async () => {
+    const resultUsers = await searchUsersUseCase.execute(
+      'Test Name 1',
+      user1.id
+    );
+
+    expect(resultUsers).not.toContain(user1);
+    expect(resultUsers).not.toContain(user2);
+  });
+
   it('Should not be able to find any users given the wrong name', async () => {
     const resultUsers = await searchUsersUseCase.execute('fake_name');
 

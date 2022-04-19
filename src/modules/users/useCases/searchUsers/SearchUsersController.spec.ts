@@ -65,11 +65,21 @@ describe('Search Users Controller', () => {
     expect(response.status).toBe(200);
 
     expect(response.body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining(user1),
-        expect.objectContaining(user2),
-      ])
+      expect.arrayContaining([expect.objectContaining(user2)])
     );
+  });
+
+  it('Should not be able to search himself', async () => {
+    const response = await request(app)
+      .get('/users/search')
+      .query({ name: 'Test Name 1' })
+      .set({
+        Authorization: `Bearer ${userToken}`,
+      });
+
+    expect(response.status).toBe(200);
+
+    expect(response.body.length).toEqual(0);
   });
 
   it('Should not be able to find any users given the wrong name', async () => {

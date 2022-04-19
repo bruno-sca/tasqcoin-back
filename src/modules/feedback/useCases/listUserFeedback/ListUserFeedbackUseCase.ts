@@ -44,7 +44,7 @@ class ListUserFeedbackUseCase {
 
     return {
       feedbacks: feedbacks.map(({ user_from, ...rest }) => ({
-        type: user.id === user_from.id ? 'sent' : 'recieved',
+        type: user.id === user_from?.id ? 'sent' : 'recieved',
         user_from,
         ...rest,
       })),
