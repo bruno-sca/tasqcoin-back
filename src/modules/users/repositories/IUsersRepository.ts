@@ -5,7 +5,7 @@ interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
-  searchUsers(name: string): Promise<User[]>;
+  searchUsers(name: string, omitId?: string): Promise<User[]>;
   update(user: User): Promise<User>;
 }
 

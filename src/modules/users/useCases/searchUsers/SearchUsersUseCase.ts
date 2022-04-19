@@ -10,8 +10,8 @@ class SearchUsersUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute(name: string): Promise<User[]> {
-    const users = await this.usersRepository.searchUsers(name);
+  async execute(name: string, id?: string): Promise<User[]> {
+    const users = await this.usersRepository.searchUsers(name, id);
 
     // eslint-disable-next-line no-param-reassign
     users.forEach((user) => delete user.password);
