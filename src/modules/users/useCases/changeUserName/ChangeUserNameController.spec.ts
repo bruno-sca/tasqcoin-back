@@ -29,12 +29,7 @@ describe('Change User Name Controller', () => {
     userToken = await authUser({
       email: user.email,
       password: user.password,
-    })
-      .then(({ token }) => token)
-      .catch((e) => {
-        console.log(e);
-        return '';
-      });
+    }).then(({ token }) => token);
 
     delete user.balance;
     delete user.password;
