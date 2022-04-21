@@ -49,5 +49,6 @@ describe('Update User Avatar Controller', () => {
       .attach('avatar', testImgPath);
 
     expect(response.status).toBe(204);
+    expect(fs.readdirSync(`${tmpPath}/avatar`).length).toEqual(1);
   });
 });

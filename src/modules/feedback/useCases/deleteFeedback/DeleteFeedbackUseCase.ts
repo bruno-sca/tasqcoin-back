@@ -1,6 +1,8 @@
+import { plainToInstance } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 
 import { IFeedbacksRepository } from '@modules/feedback/repositories/IFeedbacksRepository';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 
@@ -24,10 +26,12 @@ class DeleteFeedbackUseCase {
 
     const userFrom = await this.usersRepository.findById(feedback.user_from_id);
 
-    await this.usersRepository.update({
-      ...userFrom,
-      balance: userFrom.balance + feedback.amount,
-    });
+    await this.usersRepository.update(
+      plainToInstance(User, {
+        ...userFrom,
+        balance: userFrom.balance + feedback.amount,
+      })
+    );
 
     await this.feedbackRepository.deleteById(feedback.id);
   }

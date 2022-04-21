@@ -2,6 +2,7 @@ import request from 'supertest';
 import { Connection } from 'typeorm';
 
 import { User } from '@modules/users/infra/typeorm/entities/User';
+import { UserMap } from '@modules/users/mapper/UserMap';
 import createConnection from '@shared/infra/typeorm';
 import { authUser, createUser } from '@utils/test';
 
@@ -33,9 +34,6 @@ describe('Get User Info Controller', () => {
       password: user1.password,
     }).then(({ token }) => token);
 
-    delete user1.balance;
-    delete user1.password;
-
     user2 = await createUser(
       {
         name: 'Test Name 2',
@@ -44,9 +42,6 @@ describe('Get User Info Controller', () => {
       },
       connection
     );
-
-    delete user2.balance;
-    delete user2.password;
   });
 
   afterAll(async () => {
@@ -61,8 +56,10 @@ describe('Get User Info Controller', () => {
         Authorization: `Bearer ${userToken}`,
       });
 
+    const user1Map = UserMap.toDTO(user1);
+
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject(user1);
+    expect(response.body).toMatchObject(user1Map);
   });
 
   it('Should be able to get user info by query params', async () => {
@@ -73,8 +70,10 @@ describe('Get User Info Controller', () => {
         Authorization: `Bearer ${userToken}`,
       });
 
+    const user2Map = UserMap.toDTO(user2);
+
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject(user2);
+    expect(response.body).toMatchObject(user2Map);
   });
 
   it('Should not be able to get user info', async () => {

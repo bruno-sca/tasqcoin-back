@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IFeedbackResponseDTO } from '@modules/feedback/dto/IFeedbackResponseDTO';
 import { FeedbacksRepositoryInMemory } from '@modules/feedback/repositories/in-memory/FeedbacksRepositoryInMemory';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { UsersRepositoryInMemory } from '@modules/users/repositories/in-memory/UsersRepositoryInMemory';
@@ -11,7 +12,7 @@ let usersRepositoryInMemory: UsersRepositoryInMemory;
 let listUserFeedbackUseCase: ListUserFeedbackUseCase;
 
 let userFrom: User;
-let feedbacksTest: any[] = [];
+const feedbacksTest: IFeedbackResponseDTO[] = [];
 
 describe('ListUserFeedbackUseCase', () => {
   beforeAll(async () => {
@@ -49,12 +50,6 @@ describe('ListUserFeedbackUseCase', () => {
         user_to_id: userFrom.id,
       })
       .then((fb) => feedbacksTest.push(fb));
-
-    feedbacksTest = feedbacksTest.map((props) => ({
-      ...props,
-      type: 'recieved',
-      user_from: undefined,
-    }));
   });
 
   it('Should be able to list all users feedbacks', async () => {

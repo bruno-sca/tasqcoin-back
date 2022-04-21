@@ -1,4 +1,5 @@
 import { hash } from 'bcrypt';
+import { plainToInstance } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
@@ -40,7 +41,7 @@ class CreateUserUseCase {
 
     delete user.password;
 
-    return user;
+    return plainToInstance(User, user);
   }
 }
 
