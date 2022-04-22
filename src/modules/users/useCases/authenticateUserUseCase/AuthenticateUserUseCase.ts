@@ -4,6 +4,8 @@ import { inject, injectable } from 'tsyringe';
 
 import auth from '@config/auth';
 import { AppError } from '@errors/AppError';
+import { IUserResponseDTO } from '@modules/users/dtos/IUserResponseDTO';
+import { UserMap } from '@modules/users/mapper/UserMap';
 import { IUsersRefreshTokensRepository } from '@modules/users/repositories/IUsersRefreshTokensRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
@@ -14,11 +16,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  user: IUserResponseDTO;
   token: string;
   refresh_token: string;
 }
@@ -69,7 +67,7 @@ class AuthenticateUserUseCase {
     });
 
     return {
-      user: { id: user.id, name: user.name, email: user.email },
+      user: UserMap.toDTO(user),
       token,
       refresh_token,
     };

@@ -35,7 +35,6 @@ class UsersRepository implements IUsersRepository {
       where: { id: Not(omitId), name: ILike(`%${name}%`) },
       take: 5,
     });
-    console.log(users);
     return users;
   }
 

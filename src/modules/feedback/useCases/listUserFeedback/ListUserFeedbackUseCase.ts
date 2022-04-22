@@ -1,7 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
+import { IFeedbackResponseDTO } from '@modules/feedback/dto/IFeedbackResponseDTO';
 import { Feedback } from '@modules/feedback/infra/typeorm/entities/Feedback';
 import { IFeedbacksRepository } from '@modules/feedback/repositories/IFeedbacksRepository';
+import { UserMap } from '@modules/users/mapper/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 
@@ -12,7 +14,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  feedbacks: (Feedback & { type: 'recieved' | 'sent' })[];
+  feedbacks: IFeedbackResponseDTO[];
   totalPages: number;
 }
 
@@ -43,9 +45,11 @@ class ListUserFeedbackUseCase {
       });
 
     return {
-      feedbacks: feedbacks.map(({ user_from, ...rest }) => ({
-        type: user.id === user_from?.id ? 'sent' : 'recieved',
-        user_from,
+      feedbacks: feedbacks.map(({ user_from, user_to, ...rest }) => ({
+        ...(user_from &&
+          user_to && { type: user.id === user_from.id ? 'sent' : 'recieved' }),
+        ...(user_from && { user_from: UserMap.toDTO(user_from) }),
+        ...(user_to && { user_to: UserMap.toDTO(user_to) }),
         ...rest,
       })),
       totalPages,

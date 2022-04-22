@@ -13,11 +13,11 @@ export async function createUser(
 
   const user = new User();
 
-  Object.assign(user, { ...userDTO });
+  Object.assign(user, { ...userDTO, balance: '10000', avatar: null });
 
   await connection.query(
     `INSERT INTO USERS(id, name, email, password, is_admin, created_at, balance)
-      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', '${isAdmin}', 'now()', '10000')
+      values('${user.id}', '${userDTO.name}', '${userDTO.email}', '${password_hash}', '${isAdmin}', 'now()', '${user.balance}')
     `
   );
 

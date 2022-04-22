@@ -1,7 +1,9 @@
+import { plainToInstance } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 
 import { Feedback } from '@modules/feedback/infra/typeorm/entities/Feedback';
 import { IFeedbacksRepository } from '@modules/feedback/repositories/IFeedbacksRepository';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 
@@ -51,10 +53,12 @@ class CreateFeedbackUseCase {
       user_to_id,
     });
 
-    await this.usersRepository.update({
-      ...user_from,
-      balance: user_from.balance - amount,
-    });
+    await this.usersRepository.update(
+      plainToInstance(User, {
+        ...user_from,
+        balance: user_from.balance - amount,
+      })
+    );
 
     return feedback;
   }
