@@ -14,7 +14,8 @@
       "@infra/*": ["shared/infra/*"],
       "@errors/*": ["shared/errors/*"],
       "@utils/*": ["utils/*"],
-      "@middlewares/*": ["middlewares/*"]
+      "@middlewares/*": ["middlewares/*"],
+      "@queues/*": ["queues/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true,

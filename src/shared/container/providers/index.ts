@@ -4,6 +4,7 @@ import { IDateProvider } from './DateProvider/IDateProvider';
 import { DayjsDateProvider } from './DateProvider/implementations/DayjsDateProvider';
 import { IMailProvider } from './MailProvider/IMailProvider';
 import { EtherealMailProvider } from './MailProvider/implementations/EtherealMailProvider';
+import { MicroServiceMailProvider } from './MailProvider/implementations/MicroServiceMailProvider';
 import { IStorageProvider } from './StorageProvider/IStorageProvider';
 import { LocalStorageProvider } from './StorageProvider/implementations/LocalStorageProvider';
 
@@ -16,6 +17,7 @@ container.registerSingleton<IStorageProvider>(
 
 const mailService = {
   ethereal: container.resolve(EtherealMailProvider),
+  microservice: container.resolve(MicroServiceMailProvider),
 };
 
 container.registerInstance<IMailProvider>(
