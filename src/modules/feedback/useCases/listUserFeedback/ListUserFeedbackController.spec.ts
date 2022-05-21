@@ -86,6 +86,32 @@ describe('List User Feedback Controller', () => {
     expect(response.body.feedbacks.length).toBe(8);
   });
 
+  it('Should be able to list all sent feedbacks', async () => {
+    const response = await request(app)
+      .get('/feedbacks')
+      .query({ feedbackType: 'sent' })
+      .set({
+        Authorization: `Bearer ${userFromToken}`,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.totalPages).toBe(2);
+    expect(response.body.feedbacks.length).toBe(8);
+  });
+
+  it('Should be able to list all recieved feedbacks', async () => {
+    const response = await request(app)
+      .get('/feedbacks')
+      .query({ feedbackType: 'recieved', pageSize: 200 })
+      .set({
+        Authorization: `Bearer ${userFromToken}`,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.feedbacks.length).toBe(1);
+    expect(response.body.totalPages).toBe(1);
+  });
+
   it('Should be able to paginate all users feedbacks', async () => {
     const response = await request(app)
       .get('/feedbacks')

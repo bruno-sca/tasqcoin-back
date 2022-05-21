@@ -19,13 +19,23 @@ class FeedbacksRepositoryInMemory implements IFeedbacksRepository {
 
   async listByUserId(
     user_id: string,
+    feedbackType: FeedbackTypes,
     paginationOptions: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
     const { pageSize } = paginationOptions;
     const user_feedbacks = [...this.feedbacks]
-      .filter(({ user_to_id, user_from_id }) =>
-        [user_from_id, user_to_id].includes(user_id)
-      )
+      .filter(({ user_to_id, user_from_id }) => {
+        let ids = [];
+        if (feedbackType === 'both') {
+          ids = [user_from_id, user_to_id];
+        } else if (feedbackType === 'sent') {
+          ids = [user_from_id];
+        } else {
+          ids = [user_to_id];
+        }
+
+        return ids.includes(user_id);
+      })
       .sort(
         ({ created_at: aCreatedAt }, { created_at: bCreatedAt }) =>
           aCreatedAt.getTime() - bCreatedAt.getTime()

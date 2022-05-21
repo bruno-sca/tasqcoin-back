@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IFeedbackResponseDTO } from '@modules/feedback/dto/IFeedbackResponseDTO';
-import { Feedback } from '@modules/feedback/infra/typeorm/entities/Feedback';
 import { IFeedbacksRepository } from '@modules/feedback/repositories/IFeedbacksRepository';
 import { UserMap } from '@modules/users/mapper/UserMap';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -11,6 +10,7 @@ interface IRequest {
   user_id: string;
   page?: number;
   pageSize?: number;
+  feedbackType?: 'both' | 'sent' | 'recieved';
 }
 
 interface IResponse {
@@ -31,6 +31,7 @@ class ListUserFeedbackUseCase {
     user_id,
     page = 1,
     pageSize = 8,
+    feedbackType = 'both',
   }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findById(user_id).catch(() => {
       throw new AppError('User not found!');
@@ -39,7 +40,7 @@ class ListUserFeedbackUseCase {
     if (!user) throw new AppError('User not found!');
 
     const { feedbacks, totalPages } =
-      await this.feedbackRepository.listByUserId(user_id, {
+      await this.feedbackRepository.listByUserId(user_id, feedbackType, {
         page,
         pageSize,
       });

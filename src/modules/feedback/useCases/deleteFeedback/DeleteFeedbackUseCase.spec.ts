@@ -45,6 +45,7 @@ describe('GetUsersRankingUseCase', () => {
     userFrom = await usersRepositoryInMemory.findById(userFrom.id);
     const userFromFeedbacks = await feedbacksRepositoryInMemory.listByUserId(
       userFrom.id,
+      'both',
       { pageSize: 8 }
     );
 

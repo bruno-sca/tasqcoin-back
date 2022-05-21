@@ -24,12 +24,22 @@ class FeedbacksRepository implements IFeedbacksRepository {
 
   async listByUserId(
     user_id: string,
-    paginationOptions?: PaginationOptions
+    feedbackType: FeedbackTypes,
+    paginationOptions: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }> {
     const options = paginationOptionsToQueryOptions(paginationOptions);
 
+    let where = [];
+    if (feedbackType === 'both') {
+      where = [{ user_from_id: user_id }, { user_to_id: user_id }];
+    } else if (feedbackType === 'sent') {
+      where.push({ user_from_id: user_id });
+    } else {
+      where.push({ user_to_id: user_id });
+    }
+
     const [feedbacks, totalEntries] = await this.repository.findAndCount({
-      where: [{ user_from_id: user_id }, { user_to_id: user_id }],
+      where,
       order: {
         created_at: 'DESC',
       },
