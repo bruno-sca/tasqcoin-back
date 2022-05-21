@@ -6,7 +6,7 @@ import { ListUserFeedbackUseCase } from './ListUserFeedbackUseCase';
 class ListUserFeedbackController {
   async handle(request: Request, response: Response): Promise<Response> {
     const id = request.query.id || request.user.id;
-    const { page, pageSize } = request.query;
+    const { page, pageSize, feedbackType } = request.query;
 
     const listUserFeedbackUseCase = container.resolve(ListUserFeedbackUseCase);
 
@@ -14,6 +14,9 @@ class ListUserFeedbackController {
       user_id: String(id),
       ...(page && { page: Number(page) }),
       ...(pageSize && { pageSize: Number(pageSize) }),
+      ...(feedbackType && {
+        feedbackType: String(feedbackType) as FeedbackTypes,
+      }),
     });
 
     return response.status(200).json(res);

@@ -8,6 +8,7 @@ interface IFeedbacksRepository {
   deleteById(id: string): Promise<void>;
   listByUserId(
     user_id: string,
+    feedbackType: FeedbackTypes,
     paginationOptions: PaginationOptions
   ): Promise<{ feedbacks: Feedback[]; totalPages: number }>;
   getUserBalance(

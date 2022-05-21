@@ -52,6 +52,26 @@ describe('ListUserFeedbackUseCase', () => {
       .then((fb) => feedbacksTest.push(fb));
   });
 
+  it('Should be able to list all users sent feedbacks', async () => {
+    const { feedbacks, totalPages } = await listUserFeedbackUseCase.execute({
+      user_id: userFrom.id,
+      feedbackType: 'sent',
+    });
+
+    expect(totalPages).toBe(1);
+    expect(feedbacks).toEqual(feedbacksTest.slice(0, 8));
+  });
+
+  it('Should be able to list all users recieved feedbacks', async () => {
+    const { feedbacks, totalPages } = await listUserFeedbackUseCase.execute({
+      user_id: userFrom.id,
+      feedbackType: 'recieved',
+    });
+
+    expect(totalPages).toBe(1);
+    expect(feedbacks).toEqual(feedbacksTest.slice(8));
+  });
+
   it('Should be able to list all users feedbacks', async () => {
     const { feedbacks, totalPages } = await listUserFeedbackUseCase.execute({
       user_id: userFrom.id,
